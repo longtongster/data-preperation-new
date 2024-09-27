@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  app:
+    user: "${USER_ID:-1000}"
+    hostname: "${HOST_NAME:-emkademy}"
+    image: cybulde-data-preperation
+    platform: linux/amd64
+    container_name: cybulde-data-preperation-container
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        USER_NAME: "${USER_NAME:-kyuksel}"
+        USER_ID: "${USER_ID:-1000}"
+    volumes:
+      - ./:/app/
+      - ~/.config/gcloud/:/home/${USER_NAME:-kyuksel}/.config/gcloud
+    ports:
+      - 8080:8080
+
+    ipc: host
+    init: true
+
+
