@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     user: "${USER_ID:-1000}"
@@ -15,7 +13,8 @@ services:
         USER_ID: "${USER_ID:-1000}"
     volumes:
       - ./:/app/
-      - ~/.config/gcloud/:/home/${USER_NAME:-kyuksel}/.config/gcloud
+      #- ~/.config/gcloud/:/home/${USER_NAME:-kyuksel}/.config/gcloud
+      - ~/.aws/:/home/${USER_NAME}/.aws/
     ports:
       - 8080:8080
 
