@@ -2,7 +2,7 @@
 name = "cybulde"
 version = "0.1.0"
 description = ""
-authors = ["Kıvanç Yüksel <emkademy@gmail.com>"]
+authors = ["Sacha van Weeren <sacha.van.weeren@gmail.com>"]
 readme = "README.md"
 #package-mode = false
 
