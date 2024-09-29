@@ -101,6 +101,15 @@ class GHCDatasetReader(DatasetReader):
 
         return train_df, dev_df, test_df
 
+class DatasetReaderManager:
+    def __init__(self, dataset_readers: dict[str, DatasetReader]) -> None:
+        self.dataset_readers = dataset_readers
+
+    def read_data(self) -> dd.core.DataFrame:
+        dfs = [dataset_reader.read_data() for dataset_reader in self.dataset_readers]
+        df = dd.concat(dfs)
+        return df
+
 # object = GHCDatasetReader('data/raw/ghc','ghc', 0.5)
 # print(object.required_columns)
 # df1, df2, df3 = object._read_data()

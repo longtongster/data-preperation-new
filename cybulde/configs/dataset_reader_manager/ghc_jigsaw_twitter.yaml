@@ -1,0 +1,3 @@
+defaults:
+  - dataset_reader_manager_schema
+  - dataset_reader@dataset_reader.ghc: ghc
