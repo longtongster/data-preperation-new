@@ -1,3 +1,11 @@
 defaults:
+  # This refers to the configuration schema of the `dataset_reader_manager_schema`.
+  # This schema is defined in the `setup_config` of the `dataset_readers_schema.py`
+  # -> cs.store(name="dataset_reader_manager_schema", group="dataset_reader_manager", node= DatasetReaderManagerConfig)
+  # The group has to exactly match the directory that this yaml file is in. 
   - dataset_reader_manager_schema
+  # This refers to `dataset_reader` that is defined under the `dataset_reader_manager_schema`. There it is set to
+  # MISSING so it is set here. Normally we would refer to this using:
+  # - dataset_reader: ghc
+  # In the ghc.yaml we create a ghc reader
   - dataset_reader@dataset_reader.ghc: ghc

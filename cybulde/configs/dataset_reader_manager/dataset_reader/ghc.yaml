@@ -1,4 +1,7 @@
 defaults:
+# this schema is created in the `dataset_readers_schema.py`
+# cs.store(name="ghc_dataset_reader_schema", group="dataset_reader_manager/dataset_reader", node= GHCDatasetReaderConfig)
+# the group is "dataset_reader_manager/dataset_reader" has to exactly meet the directory structure that this ghc.yaml is in
   - ghc_dataset_reader_schema
 
 dataset_dir: ./data/raw/ghc

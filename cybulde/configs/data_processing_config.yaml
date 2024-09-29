@@ -1,5 +1,8 @@
 defaults:
+  # This refers to the schema defined in the `data_processing_config_schema.py`
   - data_processing_config_schema
+  # below is a reference to the ghc_jigsaw_twitter file in the `dataset_reader_manager`
+  # directory. 
   - dataset_reader_manager: ghc_jigsaw_twitter
 
   - override hydra/job_logging: custom
