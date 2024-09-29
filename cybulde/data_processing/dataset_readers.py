@@ -106,8 +106,8 @@ class DatasetReaderManager:
         self.dataset_readers = dataset_readers
 
     def read_data(self) -> dd.core.DataFrame:
-        dfs = [dataset_reader.read_data() for dataset_reader in self.dataset_readers]
-        df = dd.concat(dfs)
+        dfs = [dataset_reader.read_data() for dataset_reader in self.dataset_readers.values()]
+        df: dd.core.DataFrame = dd.concat(dfs)  # type: ignore
         return df
 
 # object = GHCDatasetReader('data/raw/ghc','ghc', 0.5)
@@ -117,3 +117,4 @@ class DatasetReaderManager:
 # print(df3.head())
 # df = object.read_data()
 # print(df.compute().shape)
+# rm = DatasetReaderManager()

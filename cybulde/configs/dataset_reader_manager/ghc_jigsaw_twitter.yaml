@@ -8,4 +8,4 @@ defaults:
   # MISSING so it is set here. Normally we would refer to this using:
   # - dataset_reader: ghc
   # In the ghc.yaml we create a ghc reader
-  - dataset_reader@dataset_reader.ghc: ghc
+  - dataset_readers@dataset_readers.ghc: ghc
