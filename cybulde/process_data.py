@@ -9,6 +9,7 @@ from hydra.utils import instantiate
 # the directory `configs` contains the `data_processing_config.yaml`
 @get_config(config_path="../configs", config_name="data_processing_config")
 def process_data(config: DataProcessingConfig) -> None:
+    #print(config)
     print(OmegaConf.to_yaml(config))
     #print(get_secret())
 
@@ -20,12 +21,13 @@ def process_data(config: DataProcessingConfig) -> None:
     #     github_user_name= config.github_user_name,
     #     github_access_token= get_secret())
 
-    print(config.dataset_reader_manager)
-    # dataset_reader_manager = instantiate(config.dataset_reader_manager)
+    #print(config.dataset_reader_manager)
+    dataset_reader_manager = instantiate(config.dataset_reader_manager)
+    print(dataset_reader_manager)
     #print(dataset_reader_manager)
-    #print(dataset_reader_manager)
-    #df = dataset_reader_manager.read_data()
-    #print(df.head())
+    df = dataset_reader_manager.read_data()
+    # print(df["dataset_name"].unique().compute())
+    print(df.compute()['dataset_name'].unique())
     
  
 

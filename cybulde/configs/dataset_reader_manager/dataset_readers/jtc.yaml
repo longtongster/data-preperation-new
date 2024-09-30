@@ -1,0 +1,6 @@
+defaults:
+  - jtc_dataset_reader_schema
+
+dataset_dir: ./data/raw/jigsaw-toxix-comments
+dataset_name: jtc
+dev_split_ratio: 0.1

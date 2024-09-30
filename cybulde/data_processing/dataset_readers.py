@@ -101,7 +101,7 @@ class GHCDatasetReader(DatasetReader):
 
         return train_df, dev_df, test_df
 
-class JigsawToxic(DatasetReader):
+class JigsawToxicCommentsDatasetReader(DatasetReader):
     def __init__(self,dataset_dir: str, dataset_name: str, dev_split_ratio: float) -> None:
         super().__init__(dataset_dir, dataset_name)
         self.dev_split_ratio: float = dev_split_ratio
@@ -113,10 +113,11 @@ class JigsawToxic(DatasetReader):
         train_df = dd.read_csv(train_csv_path, sep=",")
         train_df = self.get_test_and_label_columns(train_df)
         # print(train_df.head())
-        print(train_df.compute().shape)
+        # print(train_df.compute().shape)
+        
         train_df, dev_df = self.split_dataset(train_df, self.dev_split_ratio, stratify_column="label")
-        print(train_df.compute().shape)
-        print(dev_df.compute().shape)
+        # print(train_df.compute().shape)
+        # print(dev_df.compute().shape)
 
         test_labels_csv_path = os.path.join(self.dataset_dir,"test_labels.csv")
         test_labels_df = dd.read_csv(test_labels_csv_path)
@@ -132,7 +133,7 @@ class JigsawToxic(DatasetReader):
         # test_df["label"] = (test_df[self.columns_for_labels].sum(axis=1) > 0).astype("int")
         # test_df = test_df.rename(columns={"comment_text":"text"})
         test_df = self.get_test_and_label_columns(test_df)
-        print(test_df.compute().shape)
+        # print(test_df.compute().shape)
         # print(test_df["label"].sum().compute())
         #print(test_df.head())
 
@@ -163,5 +164,5 @@ class DatasetReaderManager:
 # print(df.compute().shape)
 # # rm = DatasetReaderManager()
 
-object = JigsawToxic("./data/raw/jigsaw-toxix-comments", "jigsaw", 0.3)
-print(object._read_data())
+# object = JigsawToxicCommentsDatasetReader("./data/raw/jigsaw-toxix-comments", "jigsaw", 0.3)
+#print(object._read_data())
