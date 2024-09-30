@@ -21,11 +21,13 @@ def process_data(config: DataProcessingConfig) -> None:
     #     github_user_name= config.github_user_name,
     #     github_access_token= get_secret())
 
-    #print(config.dataset_reader_manager)
+    # print(config.dataset_reader_manager)
     dataset_reader_manager = instantiate(config.dataset_reader_manager)
-    print(dataset_reader_manager)
-    #print(dataset_reader_manager)
+    # print(dataset_reader_manager)
+    # # print(dataset_reader_manager)
     df = dataset_reader_manager.read_data()
+    print(df.head())
+    print(df.compute().shape)
     # print(df["dataset_name"].unique().compute())
     print(df.compute()['dataset_name'].unique())
     

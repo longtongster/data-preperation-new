@@ -10,3 +10,4 @@ defaults:
   # In the ghc.yaml we create a ghc reader
   - dataset_readers@dataset_readers.ghc: ghc
   - dataset_readers@dataset_readers.jtc: jtc
+  - dataset_readers@dataset_readers.twitter: twitter
