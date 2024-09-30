@@ -77,7 +77,7 @@ class GHCDatasetReader(DatasetReader):
         super().__init__(dataset_dir, dataset_name)
         self.dev_split_ratio: float = dev_split_ratio
 
-    def _read_data(self) -> tuple:
+    def _read_data(self) -> tuple[dd.core.DataFrame, dd.core.DataFrame, dd.core.DataFrame]:
         self.logger.info(f"Reading dataset GHC dataset ...")
         train_tsv_path: str = os.path.join(self.dataset_dir,"ghc_train.tsv")
         train_df = dd.read_csv(train_tsv_path, sep="\t")
@@ -101,6 +101,50 @@ class GHCDatasetReader(DatasetReader):
 
         return train_df, dev_df, test_df
 
+class JigsawToxic(DatasetReader):
+    def __init__(self,dataset_dir: str, dataset_name: str, dev_split_ratio: float) -> None:
+        super().__init__(dataset_dir, dataset_name)
+        self.dev_split_ratio: float = dev_split_ratio
+        self.columns_for_labels = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
+
+    def _read_data(self) -> tuple[dd.core.DataFrame, dd.core.DataFrame, dd.core.DataFrame]:
+        self.logger.info(f"Reading {self.__class__.__name__} dataset")
+        train_csv_path: str = os.path.join(self.dataset_dir,"train.csv")
+        train_df = dd.read_csv(train_csv_path, sep=",")
+        train_df = self.get_test_and_label_columns(train_df)
+        # print(train_df.head())
+        print(train_df.compute().shape)
+        train_df, dev_df = self.split_dataset(train_df, self.dev_split_ratio, stratify_column="label")
+        print(train_df.compute().shape)
+        print(dev_df.compute().shape)
+
+        test_labels_csv_path = os.path.join(self.dataset_dir,"test_labels.csv")
+        test_labels_df = dd.read_csv(test_labels_csv_path)
+        # print(test_labels_df.head())
+
+        test_csv_path: str = os.path.join(self.dataset_dir,"test.csv")
+        test_df = dd.read_csv(test_csv_path, sep=",")
+        # print(test_df.head())
+        # print(test_df.compute().shape)
+
+        test_df = test_df.merge(test_labels_df, on="id")
+        test_df = test_df[test_df.toxic!=-1]
+        # test_df["label"] = (test_df[self.columns_for_labels].sum(axis=1) > 0).astype("int")
+        # test_df = test_df.rename(columns={"comment_text":"text"})
+        test_df = self.get_test_and_label_columns(test_df)
+        print(test_df.compute().shape)
+        # print(test_df["label"].sum().compute())
+        #print(test_df.head())
+
+        return train_df, dev_df, test_df
+    
+    def get_test_and_label_columns(self, df: dd.core.DataFrame) -> dd.core.DataFrame:
+        df["label"] = (df[self.columns_for_labels].sum(axis=1) > 0).astype("int")
+        df = df.rename(columns={"comment_text":"text"})
+        return df
+
+
+
 class DatasetReaderManager:
     def __init__(self, dataset_readers: dict[str, DatasetReader]) -> None:
         self.dataset_readers = dataset_readers
@@ -117,4 +161,7 @@ class DatasetReaderManager:
 # print(df3.head())
 # df = object.read_data()
 # print(df.compute().shape)
-# rm = DatasetReaderManager()
+# # rm = DatasetReaderManager()
+
+object = JigsawToxic("./data/raw/jigsaw-toxix-comments", "jigsaw", 0.3)
+print(object._read_data())

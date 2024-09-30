@@ -10,7 +10,7 @@ from hydra.utils import instantiate
 @get_config(config_path="../configs", config_name="data_processing_config")
 def process_data(config: DataProcessingConfig) -> None:
     print(OmegaConf.to_yaml(config))
-    print(get_secret())
+    #print(get_secret())
 
     # get_raw_data_with_version(
     #     version=config.version,
@@ -21,11 +21,12 @@ def process_data(config: DataProcessingConfig) -> None:
     #     github_access_token= get_secret())
 
     print(config.dataset_reader_manager)
-    dataset_reader_manager = instantiate(config.dataset_reader_manager)
+    # dataset_reader_manager = instantiate(config.dataset_reader_manager)
     #print(dataset_reader_manager)
     #print(dataset_reader_manager)
     #df = dataset_reader_manager.read_data()
     #print(df.head())
+    
  
 
 if __name__ == "__main__":
