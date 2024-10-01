@@ -22,6 +22,7 @@ class DatasetReader(ABC):
 
 
     def read_data(self):
+        self.logger.info(f"Reading {self.__class__.__name__} dataset")
         train_df, dev_df, test_df = self._read_data()
         df = self.assign_split_names_to_data_frames_and_merge(train_df, dev_df, test_df)
         df["dataset_name"] = self.dataset_name
@@ -78,7 +79,6 @@ class GHCDatasetReader(DatasetReader):
         self.dev_split_ratio: float = dev_split_ratio
 
     def _read_data(self) -> tuple[dd.core.DataFrame, dd.core.DataFrame, dd.core.DataFrame]:
-        self.logger.info(f"Reading dataset GHC dataset ...")
         train_tsv_path: str = os.path.join(self.dataset_dir,"ghc_train.tsv")
         train_df = dd.read_csv(train_tsv_path, sep="\t")
         # print(train_df.head())
@@ -108,7 +108,6 @@ class JigsawToxicCommentsDatasetReader(DatasetReader):
         self.columns_for_labels = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
 
     def _read_data(self) -> tuple[dd.core.DataFrame, dd.core.DataFrame, dd.core.DataFrame]:
-        self.logger.info(f"Reading {self.__class__.__name__} dataset")
         train_csv_path: str = os.path.join(self.dataset_dir,"train.csv")
         train_df = dd.read_csv(train_csv_path, sep=",")
         train_df = self.get_test_and_label_columns(train_df)
@@ -146,18 +145,18 @@ class JigsawToxicCommentsDatasetReader(DatasetReader):
 
 
 class TwitterDatasetReader(DatasetReader):
-    def __init__(self, dataset_dir: str, dataset_name: str, dev_split_ratio: float) -> None:
+    def __init__(self, dataset_dir: str, dataset_name: str, dev_split_ratio: float, test_split_ratio) -> None:
         super().__init__(dataset_dir, dataset_name)
         self.dev_split_ratio: float = dev_split_ratio
+        self.test_split_ratio: float = test_split_ratio
 
     def _read_data(self) -> tuple[dd.core.DataFrame, dd.core.DataFrame, dd.core.DataFrame]:
-        self.logger.info(f"Reading {self.__class__.__name__} dataset")
         csv_path: str = os.path.join(self.dataset_dir, "cyberbullying_tweets.csv")
         df = dd.read_csv(csv_path, sep=",")
         df["label"] = (df['cyberbullying_type'] != "not_cyberbullying").astype('int')
         df = df.rename(columns={"tweet_text": "text"})
-        temp_df, test_df = self.split_dataset(df, test_size=0.2, stratify_column="label")
-        train_df, dev_df = self.split_dataset(temp_df, test_size=0.1, stratify_column="label")
+        temp_df, test_df = self.split_dataset(df, test_size=self.test_split_ratio, stratify_column="label")
+        train_df, dev_df = self.split_dataset(temp_df, test_size=self.dev_split_ratio, stratify_column="label")
         # print(df.compute().shape)
         # print(train_df.compute().shape)
         # print(test_df.compute().shape)
@@ -185,5 +184,6 @@ class DatasetReaderManager:
 # print(df.compute().shape)
 # # rm = DatasetReaderManager()
 
-# object = TwitterDatasetReader("./data/raw/twitter", "twitter", 0.3)
+# object = TwitterDatasetReader("./data/raw/twitter", "twitter", 0.3,0.1)
 # print(object._read_data())
+# print(object.read_data().head())
