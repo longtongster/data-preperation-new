@@ -29,6 +29,10 @@ guard-%:
 process-data: up
 	$(DOCKER_COMPOSE_EXEC) python ./cybulde/process_data.py
 
+## Call entrypoint
+clean-data: up
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/data_processing/dataset_cleaners.py
+
 ## Starts jupyter lab
 notebook: up
 	$(DOCKER_COMPOSE_EXEC) jupyter-lab --ip 0.0.0.0 --port 8080 --no-browser
