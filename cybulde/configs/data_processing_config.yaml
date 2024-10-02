@@ -4,6 +4,7 @@ defaults:
   # below is a reference to the ghc_jigsaw_twitter file in the `dataset_reader_manager`
   # directory. 
   - dataset_reader_manager: ghc_jigsaw_twitter
+  - dataset_cleaner_manager: simple_dataset_cleaner
 
   - override hydra/job_logging: custom
   - override hydra/hydra_logging: disabled

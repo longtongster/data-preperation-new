@@ -10,7 +10,9 @@ from hydra.utils import instantiate
 @get_config(config_path="../configs", config_name="data_processing_config")
 def process_data(config: DataProcessingConfig) -> None:
     #print(config)
+    print(60 * "*")
     print(OmegaConf.to_yaml(config))
+    print(60 * "*")
     #print(get_secret())
 
     # get_raw_data_with_version(
@@ -23,13 +25,24 @@ def process_data(config: DataProcessingConfig) -> None:
 
     # print(config.dataset_reader_manager)
     dataset_reader_manager = instantiate(config.dataset_reader_manager)
+    dataset_cleaner_manager = instantiate(config.dataset_cleaner_manager)
     # print(dataset_reader_manager)
     # # print(dataset_reader_manager)
-    df = dataset_reader_manager.read_data()
-    print(df.head())
-    print(df.compute().shape)
-    # print(df["dataset_name"].unique().compute())
-    print(df.compute()['dataset_name'].unique())
+    df = dataset_reader_manager.read_data().compute()
+    sample_df = df.sample(n=5)
+    for idx, row in sample_df.iterrows():
+        print(60 * "*")
+        print(idx)
+        text =row['text']
+        print(text)
+        cleaned_text = dataset_cleaner_manager(text) 
+        print(cleaned_text)       
+    # print(df.head())
+    # print(df.compute().shape)
+    # # print(df["dataset_name"].unique().compute())
+    # print(df.compute()['dataset_name'].unique())
+
+    #dataset_cleaner_manager = instantiate(config.dataset_cleaner_manager)
     
  
 
