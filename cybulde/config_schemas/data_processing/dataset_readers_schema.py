@@ -1,7 +1,7 @@
 from hydra.core.config_store import ConfigStore
-
-from pydantic.dataclasses import dataclass
 from omegaconf import MISSING
+from pydantic.dataclasses import dataclass
+
 
 @dataclass
 class DatasetReaderConfig:
@@ -18,13 +18,13 @@ class GHCDatasetReaderConfig(DatasetReaderConfig):
 
 @dataclass
 class JigsawToxicCommentsDatasetReaderConfig(DatasetReaderConfig):
-    _target_:str = "cybulde.data_processing.dataset_readers.JigsawToxicCommentsDatasetReader"
+    _target_: str = "cybulde.data_processing.dataset_readers.JigsawToxicCommentsDatasetReader"
     dev_split_ratio: float = MISSING
 
 
 @dataclass
 class TwitterDatasetReaderConfig(DatasetReaderConfig):
-    _target_:str = "cybulde.data_processing.dataset_readers.TwitterDatasetReader"
+    _target_: str = "cybulde.data_processing.dataset_readers.TwitterDatasetReader"
     dev_split_ratio: float = MISSING
     test_split_ratio: float = MISSING
 
@@ -35,9 +35,19 @@ class DatasetReaderManagerConfig:
     dataset_readers: dict[str, DatasetReaderConfig] = MISSING
 
 
-def setup_config():
-    cs =ConfigStore.instance()
-    cs.store(name="ghc_dataset_reader_schema", group="dataset_reader_manager/dataset_readers", node= GHCDatasetReaderConfig)
-    cs.store(name="jtc_dataset_reader_schema", group="dataset_reader_manager/dataset_readers", node= JigsawToxicCommentsDatasetReaderConfig)
-    cs.store(name="twitter_dataset_reader_schema", group="dataset_reader_manager/dataset_readers", node= TwitterDatasetReaderConfig)
+def setup_config() -> None:
+    cs = ConfigStore.instance()
+    cs.store(
+        name="ghc_dataset_reader_schema", group="dataset_reader_manager/dataset_readers", node=GHCDatasetReaderConfig
+    )
+    cs.store(
+        name="jtc_dataset_reader_schema",
+        group="dataset_reader_manager/dataset_readers",
+        node=JigsawToxicCommentsDatasetReaderConfig,
+    )
+    cs.store(
+        name="twitter_dataset_reader_schema",
+        group="dataset_reader_manager/dataset_readers",
+        node=TwitterDatasetReaderConfig,
+    )
     cs.store(name="dataset_reader_manager_schema", group="dataset_reader_manager", node=DatasetReaderManagerConfig)
