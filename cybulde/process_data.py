@@ -14,16 +14,16 @@ def process_data(config: DataProcessingConfig) -> None:
     print(60 * "*")
     print(OmegaConf.to_yaml(config))
     print(60 * "*")
-    print(get_secret())
+    # print(get_secret())
 
-    get_raw_data_with_version(
-        version=config.version,
-        data_local_save_dir=config.data_local_save_dir,
-        dvc_remote_repo=config.dvc_remote_repo,
-        dvc_data_folder=config.dvc_data_folder,
-        github_user_name=config.github_user_name,
-        github_access_token=get_secret(),
-    )
+    # get_raw_data_with_version(
+    #     version=config.version,
+    #     data_local_save_dir=config.data_local_save_dir,
+    #     dvc_remote_repo=config.dvc_remote_repo,
+    #     dvc_data_folder=config.dvc_data_folder,
+    #     github_user_name=config.github_user_name,
+    #     github_access_token=get_secret(),
+    # )
 
     # # print(config.dataset_reader_manager)
     dataset_reader_manager = instantiate(config.dataset_reader_manager)
