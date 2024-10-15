@@ -1,7 +1,12 @@
 defaults:
   - dataset_cleaner_manager_schema
 
- # the line below can be use to override the default value of the character_limit_dataset_cleaner_schema 
+# REMARK:
+# The structure is `dataset_cleaner@dataset_cleaners.do_something`
+# the `dataset_cleaner` before the @ refers to the directory `dataset_cleaner` in the config directory
+# the `dataset_cleaners` refers to the `dataset_cleaners` in the DatasetCleanerManagerConfig object 
+
+ # the line below can be use to override the default value of the character_limit_dataset_cleaner_schema
  # - dataset_cleaner@dataset_cleaners.charachter_limit: character_limit_280
   - dataset_cleaner@dataset_cleaners.stop_words: stop_words_dataset_cleaner_schema
   - dataset_cleaner@dataset_cleaners.to_lower_case: to_lower_case_dataset_cleaner_schema
