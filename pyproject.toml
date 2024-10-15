@@ -11,20 +11,23 @@ python = ">=3.10,<3.13"
 hydra-core = "~=1.3.2"
 pydantic = "~=1.10.7"
 pandas = "~=2.0"
+#numpy = "~=2.1.2"
 nltk = "~=3.8"
 symspellpy = "~=6.7"
 fsspec = {version = "^2024.9", extras=["gcs", "s3"]}
 gcsfs = "^2024.9"
 google_cloud_secret_manager = "~=2.16"
-fastparquet = "~=2023.4"
+fastparquet = "~=2024.2"
 dvc = {version = "^3.5", extras = ["gdrive", "gs", "s3", "dvc-s3"]}
-#dask = {version = "~2023.5", extras=["complete"]}
+#dask = {version = "~=2024.9.1", extras=["complete"]}
+dask-expr = "~=1.1.15"
 dask = {version = "*", extras=["complete"]}
-#distributed = "~=2023.5"
+#distributed = "~=2024.9"
+#llvmlite = "~=0.43"
 distributed = "*"
 #dask-ml = "~=2023.3"
 dask-ml = "*"
-dask-cloudprovider = {version = "2022.10", extras =["gcp","aws"]}
+dask-cloudprovider = {version = "2024.9", extras =["gcp","aws"]}
 awscli = "^1"
 boto3 = "*"
 jupyterlab = "*"
