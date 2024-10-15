@@ -29,6 +29,8 @@ class DataProcessingConfig:
 
     dask_cluster: dask_cluster_schema.LocalDaskClusterConfig = MISSING
 
+    processed_data_save_dir: str = MISSING
+
 # This is the central place to call all schemas created in the `config_schema` directory
 # this setup_config is called in the `utils.config_utils.get_config` function that is used
 # in process_data.py

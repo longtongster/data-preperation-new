@@ -20,4 +20,5 @@ hydra:
 # data version provided. The other parameters are provided via the 
 # `data_processing_config_schema` these are not likely to change
 # (e.g. remote repository)
-version: v10
+version: v10 
+processed_data_save_dir : ./data/processed
